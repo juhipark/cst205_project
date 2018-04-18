@@ -1,3 +1,10 @@
 {% extends 'bootstrap/base.html' %}
-
 {% block title %} Day {% endblock %}
+
+{% block content %}    
+    <div class="image">
+        <img src="{{url_for('static', filename='test.jpg')}}" width="200" class="img-responsive img-rounded" alt="">
+    </div>
+
+
+{% endblock %}
