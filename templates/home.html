@@ -1,10 +1,27 @@
 {% extends 'bootstrap/base.html' %}
-{% block title %} Day {% endblock %}
+{% block content %}
+<div class="page-header">
+  <h1>Picture Dictionary</h1>
+  <small>Select a language to trasnlate to...</small>
+</div>
+  <div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Language
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+      <li><a href="#">English</a></li>
+      <li><a href="#">Spanish</a></li>
+      <li><a href="#">Korean</a></li>
+      <li><a href="#">French</a></li>
+    </ul>
+  </div>
 
-{% block content %}    
-    <div class="image">
-        <img src="{{url_for('static', filename='test.jpg')}}" width="200" class="img-responsive img-rounded" alt="">
-    </div>
-
-
+  <div class="row">
+  <div class="col-lg-5">
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Enter text...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Translate!</button>
+      </span>
+    </div><!-- /input-group -->
+  </div>
 {% endblock %}
