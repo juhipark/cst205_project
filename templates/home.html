@@ -1,9 +1,14 @@
 {% extends 'bootstrap/base.html' %}
 
-{% block title %} Day {% endblock %}
+{% block title %} Picture Dictionary {% endblock %}
 
 {% block content %}    
    
+<div class="page-header">
+  <h1>Picture Dictionary</h1>
+  <small>Select a language to trasnlate to...</small>
+</div>
+<div class="row">
     {% for pic in pics %}
     <div class="col-sm-6 col-md-3">
     <a href="#" class="thumbnail">
@@ -11,13 +16,9 @@
         </a>    
     </div>
     {% endfor %}
-
-{% block content %}
-<div class="page-header">
-  <h1>Picture Dictionary</h1>
-  <small>Select a language to trasnlate to...</small>
 </div>
-  <div class="dropdown">
+
+<div class="dropdown">
     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Language
     <span class="caret"></span></button>
     <ul class="dropdown-menu">
@@ -35,6 +36,8 @@
       <span class="input-group-btn">
         <button class="btn btn-default" type="button">Translate!</button>
       </span>
-    </div><!-- /input-group -->
+    </div>
+        <input class="form-control" type="text" placeholder="Definitions here..." readonly>
   </div>
+
 {% endblock %}
