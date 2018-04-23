@@ -3,8 +3,9 @@ from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 bootstrap = Bootstrap(app)
+pics_lst = ["test1", "test2"]
 
 @app.route('/')
 def home():
-    return render_template('home.html', pics = [0])
+    return render_template('home.html', pics=pics_lst)
 

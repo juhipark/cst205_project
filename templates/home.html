@@ -2,9 +2,13 @@
 {% block title %} Day {% endblock %}
 
 {% block content %}    
-    <div class="image">
-        <img src="{{url_for('static', filename='test.jpg')}}" width="200" class="img-responsive img-rounded" alt="">
+   
+    {% for pic in pics %}
+    <div class="col-sm-6 col-md-3">
+    <a href="#" class="thumbnail">
+        <img src="{{url_for('static', filename= pic +'.jpg')}}" width="200" class="img-responsive img-rounded" alt="">
+        </a>    
     </div>
-
+        {% endfor %}
 
 {% endblock %}
