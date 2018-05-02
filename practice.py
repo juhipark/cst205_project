@@ -4,9 +4,15 @@ import urllib
 import os
 from googletrans import Translator
 
+<<<<<<< HEAD
 def imageSearch(result):
 	site = 'https://en.wikipedia.org/wiki/' + result
 	req = Request(site, headers={'User-Agent' : 'Mozilla/5.0'})
+=======
+
+site = 'https://en.wikipedia.org/wiki/Chair'
+req = Request(site, headers={'User-Agent' : 'Mozilla/5.0'})
+>>>>>>> a0f67672d404c7d51ec9ffe313144c0a5b6ae789
 
 	resp = urlopen(req)
 	bs_obj = BeautifulSoup(resp.read(), 'html.parser')
