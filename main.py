@@ -29,14 +29,14 @@ def home():
     if form.validate_on_submit():
         user_input = form.user_language.data
         print(user_input)    
+        
+        #User choice of dropdown
+        user_lang = 'fr'
 
         #Translate user_input
-        user_lang = 'fr'
         print(translate(user_input, 'en', user_lang))
 
-        #Update picture
-        
-        
+        #Update picture        
         pics_lst[0] = "chair1"
         pics_lst[1] = "chair2"
         
