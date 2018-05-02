@@ -3,6 +3,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+from googletrans import Translator
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'csumb-otter'
@@ -14,6 +15,13 @@ class UsrLanguage(FlaskForm):
     user_language = StringField('Enter text...', validators=[DataRequired()])
     submit = SubmitField('Translate!')
 
+def translate(user_input, Ldest, Lsrc):
+    translator = Translator()
+    result1 = translator.translate(user_input, dest=Ldest, src=Lsrc)
+    return result1.text
+
+def imageSearch():
+
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -21,9 +29,14 @@ def home():
     if form.validate_on_submit():
         user_input = form.user_language.data
         print(user_input)    
+
         #Translate user_input
+        user_lang = 'fr'
+        print(translate(user_input, 'en', user_lang))
 
         #Update picture
+        
+        
         pics_lst[0] = "chair1"
         pics_lst[1] = "chair2"
         

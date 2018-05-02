@@ -6,7 +6,7 @@ def translate(Ldest, Lsrc):
 
 	translator = Translator()
 		
-	result1 = translator.translate("yes", dest = Ldest, src = Lsrc)
+	result1 = translator.translate("hello", dest = Ldest, src = Lsrc)
 
 	print(result1)
 	
