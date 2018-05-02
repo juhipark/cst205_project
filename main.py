@@ -20,7 +20,21 @@ def translate(user_input, Ldest, Lsrc):
     result1 = translator.translate(user_input, dest=Ldest, src=Lsrc)
     return result1.text
 
-def imageSearch():
+def imageSearch(result):
+	site = 'https://en.wikipedia.org/wiki/' + result
+	req = Request(site, headers={'User-Agent' : 'Mozilla/5.0'})
+
+	resp = urlopen(req)
+	bs_obj = BeautifulSoup(resp.read(), 'html.parser')
+
+	count = 0
+	pics_lst = []
+
+	for tag in bs_obj.findAll("img"):
+		count+=1
+		if(count < 4):
+			target = tag.get('src')
+			pics_lst.append(target)
 
 
 @app.route('/', methods=['GET', 'POST'])
