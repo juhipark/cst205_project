@@ -5,6 +5,7 @@ import urllib
 import os
 from googletrans import Translator
 
+
 site = 'https://en.wikipedia.org/wiki/Chair'
 req = Request(site, headers={'User-Agent' : 'Mozilla/5.0'})
 
