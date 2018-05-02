@@ -4,6 +4,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from googletrans import Translator
+from urllib.request import Request, urlopen
+from bs4 import BeautifulSoup
+import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'csumb-otter'
@@ -21,20 +24,20 @@ def translate(user_input, Ldest, Lsrc):
     return result1.text
 
 def imageSearch(result):
-	site = 'https://en.wikipedia.org/wiki/' + result
-	req = Request(site, headers={'User-Agent' : 'Mozilla/5.0'})
+    site = 'https://en.wikipedia.org/wiki/' + result
+    req = Request(site, headers={'User-Agent' : 'Mozilla/5.0'})
 
-	resp = urlopen(req)
-	bs_obj = BeautifulSoup(resp.read(), 'html.parser')
+    resp = urlopen(req)
+    bs_obj = BeautifulSoup(resp.read(), 'html.parser')
 
-	count = 0
-	pics_lst = []
-
-	for tag in bs_obj.findAll("img"):
-		count+=1
-		if(count < 4):
-			target = tag.get('src')
-			pics_lst.append(target)
+    count = 0
+    new_pics_lst = []
+    for tag in bs_obj.findAll("img"):
+        count += 1
+        if(count < 4):
+            target = tag.get('src')
+            new_pics_lst.append(target)
+    return new_pics_lst
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -48,9 +51,12 @@ def home():
         user_lang = 'fr'
 
         #Translate user_input
-        print(translate(user_input, 'en', user_lang))
 
-        #Update picture        
+        translated_word = translate(user_input, 'en', user_lang)
+        print(translated_word)
+
+        #Update picture
+        print(imageSearch(translated_word))
         pics_lst[0] = "chair1"
         pics_lst[1] = "chair2"
         
