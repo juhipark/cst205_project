@@ -23,20 +23,25 @@ def translate(user_input, Ldest, Lsrc):
     result1 = translator.translate(user_input, dest=Ldest, src=Lsrc)
     return result1.text
 
-def imageSearch(result):
-    site = 'https://en.wikipedia.org/wiki/' + result
+def imageSearch(term):
+    site = 'https://en.wikipedia.org/wiki/' + term
     req = Request(site, headers={'User-Agent' : 'Mozilla/5.0'})
 
     resp = urlopen(req)
     bs_obj = BeautifulSoup(resp.read(), 'html.parser')
 
-    count = 0
+    count = 1
     new_pics_lst = []
+    #getting at least three images
     for tag in bs_obj.findAll("img"):
         count += 1
-        if(count < 4):
+        if(count < 5):
             target = tag.get('src')
             new_pics_lst.append(target)
+    
+    #check if all of these new_pics_lst 
+    #are valid image links
+
     return new_pics_lst
 
 
