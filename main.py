@@ -7,6 +7,7 @@ from googletrans import Translator
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import os
+import ssl
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'csumb-otter'
@@ -24,10 +25,11 @@ def translate(user_input, Ldest, Lsrc):
     return result1.text
 
 def imageSearch(result):
+    ctx = ssl._create_unverified_context()
     site = 'https://en.wikipedia.org/wiki/' + result
     req = Request(site, headers={'User-Agent' : 'Mozilla/5.0'})
 
-    resp = urlopen(req)
+    resp = urlopen(req, context=ctx)
     bs_obj = BeautifulSoup(resp.read(), 'html.parser')
 
     count = 0
@@ -45,8 +47,8 @@ def home():
     form = UsrLanguage()
     if form.validate_on_submit():
         user_input = form.user_language.data
-        print(user_input)    
-        
+        print(user_input)
+
         #User choice of dropdown
         user_lang = 'fr'
 
@@ -59,7 +61,7 @@ def home():
         print(imageSearch(translated_word))
         pics_lst[0] = "chair1"
         pics_lst[1] = "chair2"
-        
+
         return redirect(url_for('home'))
 
     return render_template('home.html', pics=pics_lst, form=form)
