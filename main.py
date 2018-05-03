@@ -41,8 +41,8 @@ def imageSearch(result):
         if(count < 5):
             target = tag.get('src')
             new_pics_lst.append(target)
-    
-    #check if all of these new_pics_lst 
+
+    #check if all of these new_pics_lst
     #are valid image links
 
     return new_pics_lst
@@ -50,6 +50,7 @@ def imageSearch(result):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    translated_word=None
     form = UsrLanguage()
     if form.validate_on_submit():
         user_input = form.user_language.data
@@ -63,11 +64,14 @@ def home():
         translated_word = translate(user_input, 'en', user_lang)
         print(translated_word)
 
+
         #Update picture
         print(imageSearch(translated_word))
         pics_lst[0] = "chair1"
         pics_lst[1] = "chair2"
 
-        return redirect(url_for('home'))
-
-    return render_template('home.html', pics=pics_lst, form=form)
+#       return redirect(url_for('home'))
+    if translated_word == None:
+        return render_template('home.html', pics=pics_lst, form=form, trans="English Translation...")
+    else:
+        return render_template('home.html', pics=pics_lst, form=form, trans=translated_word)
