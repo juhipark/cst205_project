@@ -13,7 +13,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'csumb-otter'
 bootstrap = Bootstrap(app)
 
-pics_lst = ["test1", "test2"]
+
+pics_lst = ["http://leeford.in/wp-content/uploads/2017/09/image-not-found.jpg"]
 
 class UsrLanguage(FlaskForm):
     user_language = StringField('Enter text...', validators=[DataRequired()])
