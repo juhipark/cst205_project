@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from googletrans import Translator
+from my_text import stop_words
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 import os
@@ -25,6 +26,11 @@ def translate(user_input, Ldest, Lsrc):
     result1 = translator.translate(user_input, dest=Ldest, src=Lsrc)
     return result1.text
 
+def check_stopword(translate_word):
+	for e in stop_words:
+		if translate_word == e:
+			return True
+	return False
 
 def imageSearch(result):
     ctx = ssl._create_unverified_context()
