@@ -4,6 +4,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from googletrans import Translator
+from my_text import stop_words
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'csumb-otter'
@@ -19,6 +20,12 @@ def translate(user_input, Ldest, Lsrc):
     translator = Translator()
     result1 = translator.translate(user_input, dest=Ldest, src=Lsrc)
     return result1.text
+
+def check_stopword(translate_word):
+	for e in stop_words:
+		if translate_word == e:
+			return True
+	return False
 
 def imageSearch(result):
 	site = 'https://en.wikipedia.org/wiki/' + result
