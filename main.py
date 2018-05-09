@@ -34,17 +34,23 @@ def imageSearch(result):
     resp = urlopen(req, context=ctx)
     bs_obj = BeautifulSoup(resp.read(), 'html.parser')
 
-    count = 1
     new_pics_lst = []
     #getting at least three images
     for tag in bs_obj.findAll("img"):
-        count += 1
-        if(count < 5):
-            target = tag.get('src')
-            new_pics_lst.append(target)
+        target = tag.get('src')
+        new_pics_lst.append(target)
 
-    #check if all of these new_pics_lst
-    #are valid image links
+    #check if all of these new_pics_lst are valid image links
+    index = 0
+    for src in new_pics_lst:
+        #check if extension is either png / jpg
+        if (src[-3:] == 'png') or (src[-3:] == 'jpg'):
+            #don't do anything
+            print(new_pics_lst[index])
+        else:
+            #erase that src b/c it is not valid
+            del new_pics_lst[index]
+        index += 1
 
     return new_pics_lst
 
@@ -61,17 +67,19 @@ def home():
         user_lang = 'fr'
 
         #Translate user_input
-
         translated_word = translate(user_input, 'en', user_lang)
         print(translated_word)
 
-
-        #Update picture
+        #if(!check_stopword(translated_word)):
+            #Update picture
         print(imageSearch(translated_word))
-        pics_lst[0] = "chair1"
-        pics_lst[1] = "chair2"
+        #for src_url in imageSearch(translated_word):
+         #   pics_lst[idex] = src_url
+          #  print(pics_lst)
+           # idex += 1
 
 #       return redirect(url_for('home'))
+
     if translated_word == None:
         return render_template('home.html', pics=pics_lst, form=form, trans="English Translation...")
     else:
