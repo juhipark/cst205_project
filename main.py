@@ -14,9 +14,6 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'csumb-otter'
 bootstrap = Bootstrap(app)
 
-
-pics_lst = ["http://leeford.in/wp-content/uploads/2017/09/image-not-found.jpg"]
-
 class UsrLanguage(FlaskForm):
     user_language = StringField('Enter text...', validators=[DataRequired()])
     submit = SubmitField('Translate!')
@@ -50,7 +47,7 @@ def imageSearch(result):
     index = 0
     for src in new_pics_lst:
         #check if extension is either png / jpg
-        if (src[-3:] == 'png') or (src[-3:] == 'jpg'):
+        if(src[-3:] == 'jpg'):
             #don't do anything
             print(new_pics_lst[index])
         else:
@@ -65,6 +62,9 @@ def imageSearch(result):
 def home():
     translated_word=None
     form = UsrLanguage()
+    #default pics_lst each with images not found
+    pics_lst = ["https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png", "https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png", "https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png"]
+
     if form.validate_on_submit():
         user_input = form.user_language.data
         print(user_input)
@@ -75,16 +75,21 @@ def home():
         #Translate user_input
         translated_word = translate(user_input, 'en', user_lang)
         print(translated_word)
-
-        #if(!check_stopword(translated_word)):
+        #pics_lst.clear()
+        if(not check_stopword(translated_word)):
             #Update picture
-        print(imageSearch(translated_word))
-        #for src_url in imageSearch(translated_word):
-         #   pics_lst[idex] = src_url
-          #  print(pics_lst)
-           # idex += 1
-
-#       return redirect(url_for('home'))
+            searched_src = (imageSearch(translated_word))
+            #check when searched_src
+            if(len(searched_src) >= 3):
+                for c in range(0,3):
+                    pics_lst[c] = searched_src[c]
+            elif(len(searched_src) == 2):
+                pics_lst[0] = searched_src[0]
+                pics_lst[1] = searched_src[1]
+            elif(len(searched_src) == 1):
+                pics_lst[0] = searched_src[0]
+                
+        #return redirect(url_for('home'))
 
     if translated_word == None:
         return render_template('home.html', pics=pics_lst, form=form, trans="English Translation...")
