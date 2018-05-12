@@ -48,18 +48,36 @@
     <div class="dropdown">
             <div class="col-md-8 col-md-offset-2">
                 <form action="{{ url_for('home') }}" method="post">
-                    {{ form.hidden_tag() }}
+                    <div class="well well-sm">
+					{{ form.hidden_tag() }}
                     <div class="form-group">
-                        {{ form.single_select.label }}
-                        <small class="text-muted">{{ form.single_select.description }}</small>
-                        {{ form.single_select(class_="form-control") }}
+                        {{ form.from_select.label }}
+                        <small class="text-muted">{{ form.from_select.description }}</small>
+                        {{ form.from_select(class_="form-control") }}
                     </div>
-					{{form.csrf_token}}
-					{{form.hidden_tag()}}
+
 					<p>
 					{{form.user_language(class='form-control', id='usrInput')}}
 					<button class="btn btn-default" type="submit" >Translate!</button>
 					</p>
+					</div>
+					
+					{{ form.hidden_tag() }}
+					<div class="well well-sm">
+                    {{ form.to_select.label }}
+                    <small class="text-muted">{{ form.to_select.description }}</small>
+                    {{ form.to_select(class_="form-control") }}
+					<small class='text-muted'>Translation :</small>
+					<small class='form-control'>{{trans}}</small>
+                    </div>
+					
+					{{form.csrf_token}}
+					{{form.hidden_tag()}}
+				
+					</div>
+
+
+					</div>
                 </form>
         </div>
     </div>
@@ -75,11 +93,6 @@
     });
     </script>
 </body>
-
-    </div>
-        <input class="form-control" type="text" placeholder="{{trans}}" readonly>
-
-  </div>
 
 
 {% endblock %}

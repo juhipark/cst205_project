@@ -17,7 +17,8 @@ bootstrap = Bootstrap(app)
 
 class UsrLanguage(FlaskForm):
     user_language = StringField('Enter text...', validators=[DataRequired()])
-    single_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","Japanese"),("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],description=u"Choose Language",render_kw= None)	
+    from_select = SelectField(u"", [DataRequired()],choices=[("en","english"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","japanese"),("tr","turkish"),("ru","russian"),("pt","portuguese")],description=u"Translate from",render_kw= None)		
+    to_select = SelectField(u"", [DataRequired()],choices=[("en","english"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","japanese"),("tr","turkish"),("ru","russian"),("pt","portuguese")],description=u"Choose Translated Language",render_kw= None)		
     submit = SubmitField('Translate!')
 
 
@@ -92,11 +93,14 @@ def home():
         print(user_input)
 		
 		
-        lang = request.form.get('single_select')
-        print(lang)
+        from_lang = request.form.get('from_select')
+        to_lang = request.form.get('to_select')
 
         #Translate user_input
-        translated_word = translate(user_input, 'en', lang)
+        translated_word = translate(user_input, 'en', from_lang)
+        translated_word_print = translate(user_input, to_lang, from_lang)
+		
+		
         print(translated_word)
         #pics_lst.clear()
         if(not check_stopword(translated_word)):
@@ -117,7 +121,7 @@ def home():
     if translated_word == None:
         return render_template('home.html', pics=pics_lst, form=form, trans="English Translation...")
     else:
-        return render_template('home.html', pics=pics_lst, form=form, trans=translated_word)
+        return render_template('home.html', pics=pics_lst, form=form, trans=translated_word_print)
 		
 if __name__ == "__main__":
     app.run(debug=True)		
