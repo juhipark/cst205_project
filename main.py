@@ -34,19 +34,21 @@ def check_stopword(translate_word):
 
 #Flickr API imge searh 
 def imageSearch2(result):
-	public = '9c6109575396742440a08a2c2565448d'
-	secret = 'e72741e04719dbf8'
+    public = '9c6109575396742440a08a2c2565448d'
+    secret = 'e72741e04719dbf8'
 
-	flickr = FlickrAPI(public, secret, format='parsed-json')
-	im = 'url_c'	
-	search = flickr.photos.search(tags=result, per_page=200, extras=im)
-	images = search['photos']
+    flickr = FlickrAPI(public, secret, format='parsed-json')
+    im = 'url_c'	
+    search = flickr.photos.search(tags=result, per_page=200, extras=im)
+    images = search['photos']
 
-	new_pics_lst = []
+    new_pics_lst = []
 
-	for i in range(len(images['photo'])):
-		if im in images['photo'][i]:
-			new_pics_lst.append(images['photo'][i][im])
+    for i in range(len(images['photo'])):
+        if im in images['photo'][i]:
+            new_pics_lst.append(images['photo'][i][im])
+
+    return new_pics_lst
 
 #Wikipedia image webscraping search
 def imageSearch(result):
@@ -99,7 +101,7 @@ def home():
         #pics_lst.clear()
         if(not check_stopword(translated_word)):
             #Update picture
-            searched_src = (imageSearch(translated_word))
+            searched_src = (imageSearch2(translated_word))
             #check when searched_src
             if(len(searched_src) >= 3):
                 for c in range(0,3):
