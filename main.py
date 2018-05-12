@@ -7,6 +7,7 @@ from googletrans import Translator
 from my_text import stop_words
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
+from flickrapi import FlickrAPI
 import os
 import ssl
 
@@ -31,6 +32,23 @@ def check_stopword(translate_word):
 			return True
 	return False
 
+#Flickr API imge searh 
+def imageSearch2(result):
+	public = '9c6109575396742440a08a2c2565448d'
+	secret = 'e72741e04719dbf8'
+
+	flickr = FlickrAPI(public, secret, format='parsed-json')
+	im = 'url_c'	
+	search = flickr.photos.search(tags=result, per_page=200, extras=im)
+	images = search['photos']
+
+	new_pics_lst = []
+
+	for i in range(len(images['photo'])):
+		if im in images['photo'][i]:
+			new_pics_lst.append(images['photo'][i][im])
+
+#Wikipedia image webscraping search
 def imageSearch(result):
     ctx = ssl._create_unverified_context()
     site = 'https://en.wikipedia.org/wiki/' + result
