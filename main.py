@@ -17,8 +17,8 @@ bootstrap = Bootstrap(app)
 
 class UsrLanguage(FlaskForm):
     user_language = StringField('Enter text...', validators=[DataRequired()])
-    from_select = SelectField(u"", [DataRequired()],choices=[("en","english"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","japanese"),("tr","turkish"),("ru","russian"),("pt","portuguese")],description=u"Translate from",render_kw= None)		
-    to_select = SelectField(u"", [DataRequired()],choices=[("en","english"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","japanese"),("tr","turkish"),("ru","russian"),("pt","portuguese")],description=u"Choose Translated Language",render_kw= None)		
+    from_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","Japanese"),("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],description=u"Translate from",render_kw= None)		
+    to_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","japanese"),("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],description=u"Choose Translated Language",render_kw= None)		
     submit = SubmitField('Translate!')
 
 
