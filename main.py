@@ -17,7 +17,7 @@ bootstrap = Bootstrap(app)
 
 class UsrLanguage(FlaskForm):
     user_language = StringField('Enter text...', validators=[DataRequired()])
-    single_select = SelectField(u"", [DataRequired()],choices=[("fr", "French"), ("es", "Spanish"), ("ko", "Korean")],description=u"Choose Language",render_kw= None)	
+    single_select = SelectField(u"", [DataRequired()],choices=[("en","english"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","japanese"),("tr","turkish"),("ru","russian"),("pt","portuguese")],description=u"Choose Language",render_kw= None)	
     submit = SubmitField('Translate!')
 
 
