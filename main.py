@@ -1,11 +1,28 @@
-# Team17 Collaborated to create multi-language dictionary that displays three randomized images 
-#
-# By Juhi Park: Created image display and header well, also coded for linking up the WTF to get user words.
-# By Clement Davin: I worked on creating 2 dropdown which allows the user to choose from which language to which one he want to translate his text
-# By
-# By
-#
-#
+"""
+Course: CST205: Multimedia Design & Progmng
+Title: Picture Dictionary 
+Project Description: Team17 Collaborated to create multi-language dictionary 
+					  that displays three randomized images 
+
+GitHub Link: https://github.com/juhipark/cst205_project.git
+
+Juhi Park: Created image display and header well, also coded for linking 
+			up the WTF to get user words.
+
+Clement Davin: I worked on creating 2 dropdowns which allows the user to 
+				choose the source(what language the word is in)of the language 
+				and the destination(what language it will be translated to).
+				I was also responsible for working on the code for the translation using
+				googletrans API.
+
+Cesar Aldrete: I worked on webscraping the images from Wikipedia using beautiful soup.
+				Webscraping was not working how we wanted. We decided to use an Image API(Flickr).
+				I was responsible for providing the code for the FickrAPI as well. Along side with 
+				Clement we were able to get the translation code with googletrans API to work.
+
+
+
+"""
 
 from flask import Flask, render_template, url_for, redirect, request,current_app, flash
 from flask_bootstrap import Bootstrap
@@ -24,43 +41,60 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'csumb-otter'
 bootstrap = Bootstrap(app)
 
+#Grabs the source language and destination language
+#for the word translation
 class UsrLanguage(FlaskForm):
-    user_language = StringField('Enter text...', validators=[DataRequired()])
-    from_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","Japanese"),("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],description=u"Translate from",render_kw= None)		
-    to_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"), ("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","japanese"),("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],description=u"Choose Translated Language",render_kw= None)		
-    submit = SubmitField('Translate!')
+	user_language = StringField('Enter text...', validators=[DataRequired()])
+	#Language source
+	from_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"), 
+							("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","Japanese"),
+							("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],
+							description=u"Translate from",render_kw= None)	
+	#Language destination
+	to_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"),
+							("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"),("'ja","japanese"),
+							("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],
+							description=u"Choose Translated Language",render_kw= None)
+   
+	submit = SubmitField('Translate!')
 
-
+#translates the word that the user inputs
+#Googletrans API Documntation: http://py-googletrans.readthedocs.io/en/documentation/
 def translate(user_input, Ldest, Lsrc):
-    translator = Translator()
-    result1 = translator.translate(user_input, dest=Ldest, src=Lsrc)
-    return result1.text
+	translator = Translator()
+	result1 = translator.translate(user_input, dest=Ldest, src=Lsrc)
+	return result1.text
 
+#returns T||F if the translated word is a stop word. No image will display if T
 def check_stopword(translate_word):
 	for e in stop_words:
 		if translate_word == e:
 			return True
 	return False
 
-#Flickr API imge searh 
+#Flickr API image searh
+#returns a list of images with tags that match the translated wordi
+#FlickrAPI Documentation: https://www.flickr.com/services/api/flickr.photos.search.html
 def imageSearch2(result):
-    public = '9c6109575396742440a08a2c2565448d'
-    secret = 'e72741e04719dbf8'
+	public = '9c6109575396742440a08a2c2565448d'
+	secret = 'e72741e04719dbf8'
 
-    flickr = FlickrAPI(public, secret, format='parsed-json')
-    im = 'url_c'	
-    search = flickr.photos.search(tags=result, per_page=200, extras=im)
-    images = search['photos']
+	flickr = FlickrAPI(public, secret, format='parsed-json')
+	im = 'url_c'	
+	search = flickr.photos.search(tags=result, per_page=200, extras=im)
+	images = search['photos']
+	
+	new_pics_lst = []
 
-    new_pics_lst = []
-
-    for i in range(len(images['photo'])):
-        if im in images['photo'][i]:
-            new_pics_lst.append(images['photo'][i][im])
-
-    return new_pics_lst
-
+	for i in range(len(images['photo'])):
+		if im in images['photo'][i]:
+			new_pics_lst.append(images['photo'][i][im])
+	return new_pics_lst
+"""
+#CURRENTLY NOT IN USE
 #Wikipedia image webscraping search
+#Grabs the html image 'src' from wikipedia searchi
+#Partial code grabbed from iLearn BS4 sample
 def imageSearch(result):
     ctx = ssl._create_unverified_context()
     site = 'https://en.wikipedia.org/wiki/' + result
@@ -88,50 +122,49 @@ def imageSearch(result):
         index += 1
 
     return new_pics_lst
-
+"""
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    translated_word=None
-    form = UsrLanguage()
-    #default pics_lst each with images not found
-    pics_lst = ["https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png", "https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png", "https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png"]
+	translated_word=None
+	form = UsrLanguage()
 
-    if request.method == 'POST':
-        user_input = form.user_language.data
-        print(user_input)
+    #default pics_lst each with images not found
+	pics_lst = ["https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png",
+				"https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png",
+				"https://renderman.pixar.com/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png"]
+
+	if request.method == 'POST':
+		user_input = form.user_language.data
+		print(user_input)
 		
-		
-        from_lang = request.form.get('from_select')
-        to_lang = request.form.get('to_select')
+		from_lang = request.form.get('from_select')
+		to_lang = request.form.get('to_select')
 
         #Translate user_input
-        translated_word = translate(user_input, 'en', from_lang)
-        translated_word_print = translate(user_input, to_lang, from_lang)
+		translated_word = translate(user_input, 'en', from_lang)
+		translated_word_print = translate(user_input, to_lang, from_lang)
 		
-		
-        print(translated_word)
+		print(translated_word)
         #pics_lst.clear()
-        if(not check_stopword(translated_word)):
+		if(not check_stopword(translated_word)):
             #Update picture
-            searched_src = (imageSearch2(translated_word))
+			searched_src = (imageSearch2(translated_word))
             #check when searched_src
-            if(len(searched_src) >= 3):
-                for c in range(0,3):
-                    pics_lst[c] = searched_src[c]
-            elif(len(searched_src) == 2):
-                pics_lst[0] = searched_src[0]
-                pics_lst[1] = searched_src[1]
-            elif(len(searched_src) == 1):
-                pics_lst[0] = searched_src[0]
-                
+			if(len(searched_src) >= 3):
+				for c in range(0,3):
+					pics_lst[c] = searched_src[c]
+			elif(len(searched_src) == 2):
+				pics_lst[0] = searched_src[0]
+				pics_lst[1] = searched_src[1]
+			elif(len(searched_src) == 1):
+				pics_lst[0] = searched_src[0]        
         #return redirect(url_for('home'))
 
-    if translated_word == None:
-        return render_template('home.html', pics=pics_lst, form=form, trans="Translated word...")
-    else:
-        return render_template('home.html', pics=pics_lst, form=form, trans=translated_word_print)
-		
+	if translated_word == None:
+		return render_template('home.html', pics=pics_lst, form=form, trans="Translated word...")
+	else:
+		return render_template('home.html', pics=pics_lst, form=form, trans=translated_word_print)
+
 if __name__ == "__main__":
-    app.run(debug=True)		
-		
+    app.run(debug=True)
