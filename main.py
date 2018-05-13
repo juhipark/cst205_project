@@ -1,7 +1,7 @@
 # Team17 Collaborated to create multi-language dictionary that displays three randomized images 
 #
 # By Juhi Park: Created image display and header well, also coded for linking up the WTF to get user words.
-# By 
+# By Clement Davin: I worked on creating 2 dropdown which allows the user to choose from which language to which one he want to translate his text
 # By
 # By
 #
