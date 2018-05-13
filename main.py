@@ -1,3 +1,12 @@
+# Team17 Collaborated to create multi-language dictionary that displays three randomized images 
+#
+# By Juhi Park: Created image display and header well, also coded for linking up the WTF to get user words.
+# By 
+# By
+# By
+#
+#
+
 from flask import Flask, render_template, url_for, redirect, request,current_app, flash
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm, Form
@@ -119,7 +128,7 @@ def home():
         #return redirect(url_for('home'))
 
     if translated_word == None:
-        return render_template('home.html', pics=pics_lst, form=form, trans="English Translation...")
+        return render_template('home.html', pics=pics_lst, form=form, trans="Translated word...")
     else:
         return render_template('home.html', pics=pics_lst, form=form, trans=translated_word_print)
 		

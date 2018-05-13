@@ -3,7 +3,7 @@
 {% block title %} Picture Dictionary {% endblock %}
 {% block content %}
 <div class="container">
-<div class="page-header well well-sm">
+<div class="page-header well well-sm w0">
     <h1 align="center">  <kbd>Picture Dictionary</kbd></h1>
     <p align="center">Select languages for translation and receive image representation</small>
 </div>
@@ -37,36 +37,29 @@
     </a>
 </div>
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet">
-</head>
 <body>
     <div class="dropdown">
             <div class="col-md-8 col-md-offset-2">
                 <form action="{{ url_for('home') }}" method="post">
-                    <div class="well well-sm">
+                    <div class="well well-sm w1">
 					{{ form.hidden_tag() }}
                     <div class="form-group">
                         {{ form.from_select.label }}
                         <small class="text-muted">{{ form.from_select.description }}</small>
                         {{ form.from_select(class_="form-control") }}
+					    {{form.user_language(class='form-control', id='usrInput')}}
                     </div>
 
 					<p>
-					{{form.user_language(class='form-control', id='usrInput')}}
 					<button class="btn btn-default" type="submit" >Translate!</button>
 					</p>
 					</div>
 					
 					{{ form.hidden_tag() }}
-					<div class="well well-sm">
+					<div class="well well-sm w2">
                     {{ form.to_select.label }}
                     <small class="text-muted">{{ form.to_select.description }}</small>
                     {{ form.to_select(class_="form-control") }}
-					<small class='text-muted'>Translation :</small>
 					<small class='form-control'>{{trans}}</small>
                     </div>
 					
@@ -74,27 +67,15 @@
 					{{form.hidden_tag()}}
 				
 					</div>
-
-
 					</div>
                 </form>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.10.0/js/bootstrap-select.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function()
-	{
-        $("select").select2({});
-    });
-    </script>
-</body>
+   </body>
 
 </div>
 </div>
-
+<link href="{{url_for('static', filename='Default.css')}}" rel="stylesheet" type="text/css" />
 {% endblock %}
 
