@@ -141,8 +141,9 @@ def home():
 		from_lang = request.form.get('from_select')
 		to_lang = request.form.get('to_select')
 
-        #Translate user_input
+        #Translate user_input to find english image of it
 		translated_word = translate(user_input, 'en', from_lang)
+		# Then translate in the language asked
 		translated_word_print = translate(user_input, to_lang, from_lang)
 		
 		print(translated_word)
