@@ -6,8 +6,15 @@ Project Description: Team17 Collaborated to create multi-language dictionary
 
 GitHub Link: https://github.com/juhipark/cst205_project.git
 
-Juhi Park: Created image display and header well, also coded for linking 
-			up the WTF to get user words.
+#In case flickr API exceed limit, below are new set of API Auth. Key
+public = 'f3ddaa6e238bdb2cbba67f415f94f8ea' 
+secret = '2ca9067a250f47d2'
+
+#Contribution:
+Juhi Park: I created image display in carousel format with three default image values.
+                        I worked on the formatting of the webpage and grouped each of the widgets within a well and applied colors.
+                        I also coded for linking up the WTF to get user words as well as making sure that the application
+                        can find the updated source url for the images.
 
 Clement Davin: I worked on creating 2 dropdowns which allows the user to 
 				choose the source(what language the word is in)of the language 
@@ -147,11 +154,10 @@ def home():
 		translated_word_print = translate(user_input, to_lang, from_lang)
 		
 		print(translated_word)
-        #pics_lst.clear()
 		if(not check_stopword(translated_word)):
-            #Update picture
+                        #Update picture
 			searched_src = (imageSearch2(translated_word))
-            #check when searched_src
+                        #check when searched_src
 			if(len(searched_src) >= 3):
 				for c in range(0,3):
 					pics_lst[c] = searched_src[c]
