@@ -53,14 +53,14 @@ bootstrap = Bootstrap(app)
 class UsrLanguage(FlaskForm):
 	user_language = StringField('Enter text...', validators=[DataRequired()])
 	#Language source
-	from_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"), 
-							("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"), ("'ja","Japanese"),
-							("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],
+	from_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"),("de","German"), 
+							("ga","Irish"),("it","Italian"),("'ja","Japanese"),("ko", "Korean"),("pt","Portuguese"),
+							("ru","Russian"),("es", "Spanish"),("tr","Turkish")],
 							description=u"Translate from",render_kw= None)	
 	#Language destination
-	to_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"), ("es", "Spanish"),
-							("ko", "Korean"), ("ga","Irish"),("de","German"),("it","Italian"),("'ja","japanese"),
-							("tr","Turkish"),("ru","Russian"),("pt","Portuguese")],
+	to_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"),("de","German"), 
+							("ga","Irish"),("it","Italian"),("'ja","Japanese"),("ko", "Korean"),("pt","Portuguese"),
+							("ru","Russian"),("es", "Spanish"),("tr","Turkish")],
 							description=u"Choose Translated Language",render_kw= None)
    
 	submit = SubmitField('Translate!')
@@ -169,7 +169,7 @@ def home():
         #return redirect(url_for('home'))
 
 	if translated_word == None:
-		return render_template('home.html', pics=pics_lst, form=form, trans="Translated word...")
+		return render_template('home.html', pics=pics_lst, form=form, trans="Translated word here...")
 	else:
 		return render_template('home.html', pics=pics_lst, form=form, trans=translated_word_print)
 
