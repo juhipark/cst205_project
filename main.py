@@ -1,13 +1,13 @@
 """
 Course: CST205: Multimedia Design & Progmng
-Title: Picture Dictionary 
-Project Description: Team17 Collaborated to create multi-language dictionary 
-					  that displays three randomized images 
+Title: Picture Dictionary
+Project Description: Team17 Collaborated to create multi-language dictionary
+					  that displays three randomized images
 
 GitHub Link: https://github.com/juhipark/cst205_project.git
 
 #In case flickr API exceed limit, below are new set of API Auth. Key
-public = 'f3ddaa6e238bdb2cbba67f415f94f8ea' 
+public = 'f3ddaa6e238bdb2cbba67f415f94f8ea'
 secret = '2ca9067a250f47d2'
 
 #Contribution:
@@ -16,19 +16,21 @@ Juhi Park: I created image display in carousel format with three default image v
                         I also coded for linking up the WTF to get user words as well as making sure that the application
                         can find the updated source url for the images.
 
-Clement Davin: I worked on creating 2 dropdowns which allows the user to 
-				choose the source(what language the word is in)of the language 
+Clement Davin: I worked on creating 2 dropdowns which allows the user to
+				choose the source(what language the word is in)of the language
 				and the destination(what language it will be translated to).
 				I was also responsible for working on the code for the translation using
 				googletrans API.
 
 Cesar Aldrete: I worked on webscraping the images from Wikipedia using beautiful soup.
 				Webscraping was not working how we wanted. We decided to use an Image API(Flickr).
-				I was responsible for providing the code for the FickrAPI as well. Along side with 
+				I was responsible for providing the code for the FickrAPI as well. Along side with
 				Clement we were able to get the translation code with googletrans API to work.
 
 
-
+Eddie Margarito: I worked on FLASK app and html bootstrap widgets to create the webpage. Worked on formating a couple of the buttonsself.
+					I was also assigned task to link some of the buttons to pass variables from the API. I also was tasked to
+					display the finsihed transaltion of the word onto the API.
 """
 
 from flask import Flask, render_template, url_for, redirect, request,current_app, flash
@@ -53,16 +55,16 @@ bootstrap = Bootstrap(app)
 class UsrLanguage(FlaskForm):
 	user_language = StringField('Enter text...', validators=[DataRequired()])
 	#Language source
-	from_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"),("de","German"), 
+	from_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"),("de","German"),
 							("ga","Irish"),("it","Italian"),("'ja","Japanese"),("ko", "Korean"),("pt","Portuguese"),
 							("ru","Russian"),("es", "Spanish"),("tr","Turkish")],
-							description=u"Translate from",render_kw= None)	
+							description=u"Translate from",render_kw= None)
 	#Language destination
-	to_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"),("de","German"), 
+	to_select = SelectField(u"", [DataRequired()],choices=[("en","English"),("fr", "French"),("de","German"),
 							("ga","Irish"),("it","Italian"),("'ja","Japanese"),("ko", "Korean"),("pt","Portuguese"),
 							("ru","Russian"),("es", "Spanish"),("tr","Turkish")],
 							description=u"Choose Translated Language",render_kw= None)
-   
+
 	submit = SubmitField('Translate!')
 
 #translates the word that the user inputs
@@ -87,10 +89,10 @@ def imageSearch2(result):
 	secret = 'e72741e04719dbf8'
 
 	flickr = FlickrAPI(public, secret, format='parsed-json')
-	im = 'url_c'	
+	im = 'url_c'
 	search = flickr.photos.search(tags=result, per_page=200, extras=im)
 	images = search['photos']
-	
+
 	new_pics_lst = []
 
 	for i in range(len(images['photo'])):
@@ -144,7 +146,7 @@ def home():
 	if request.method == 'POST':
 		user_input = form.user_language.data
 		print(user_input)
-		
+
 		from_lang = request.form.get('from_select')
 		to_lang = request.form.get('to_select')
 
@@ -152,7 +154,7 @@ def home():
 		translated_word = translate(user_input, 'en', from_lang)
 		# Then translate in the language asked
 		translated_word_print = translate(user_input, to_lang, from_lang)
-		
+
 		print(translated_word)
 		if(not check_stopword(translated_word)):
                         #Update picture
@@ -165,7 +167,7 @@ def home():
 				pics_lst[0] = searched_src[0]
 				pics_lst[1] = searched_src[1]
 			elif(len(searched_src) == 1):
-				pics_lst[0] = searched_src[0]        
+				pics_lst[0] = searched_src[0]
         #return redirect(url_for('home'))
 
 	if translated_word == None:
